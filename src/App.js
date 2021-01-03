@@ -17,13 +17,19 @@ class App extends React.Component {
             error => this.setState({errorMessage: error.message})
         )
     }
+    renderContent() {
+        const {lat, errorMessage, message} = this.state;
+        if(lat) return (<SeasonDisplay lat={lat} />);
+        if(errorMessage) return (<div>Error: {errorMessage}</div>);
+        return (<Spinner message={message} />)
+    }
 
     render() {
         return (
             <div>
-                {this.state.lat && <SeasonDisplay lat={this.state.lat} />}
-                {this.state.errorMessage && <div>Error: {this.state.errorMessage}</div>}
-                {!this.state.lat && !this.state.errorMessage && <Spinner message={this.state.message}/>}
+                <div className={`app-border`}>
+                    {this.renderContent()}
+                </div>
             </div>
         )
     }
